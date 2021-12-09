@@ -1,9 +1,10 @@
 var models = require('../models');
 var db = require('../db/index.js');
+var modelUsers = require('../models/users.js');
 
 module.exports = {
   get: function (req, res) {
-    db.query('SELECT * FROM users', (err, data) => {
+    modelUsers.getAll((err, data) => {
       if (err) {
         res.json('Could not get users');
       } else {
@@ -14,14 +15,38 @@ module.exports = {
   post: function (req, res) {
     const username = req.body.username;
 
-    const queryStr = 'INSERT INTO users (username) VALUES (?)';
-
-    db.query(queryStr, username, (err, data) => {
+    modelUsers.create(username, (err, data) => {
       if (err) {
-        res.json('Could not post user.')
+        res.json('Could not post user.');
       } else {
-        res.json('Successfully posted user!')
+        res.json('Successfully posted user!');
       }
-    });
+    })
   }
 };
+
+//// ALT everything done here
+// module.exports = {
+//   get: function (req, res) {
+//     db.query('SELECT * FROM users', (err, data) => {
+//       if (err) {
+//         res.json('Could not get users');
+//       } else {
+//         res.json(data);
+//       }
+//     })
+//   },
+//   post: function (req, res) {
+//     const username = req.body.username;
+
+//     const queryStr = 'INSERT INTO users (username) VALUES (?)';
+
+//     db.query(queryStr, username, (err, data) => {
+//       if (err) {
+//         res.json('Could not post user.')
+//       } else {
+//         res.json('Successfully posted user!')
+//       }
+//     });
+//   }
+// };
