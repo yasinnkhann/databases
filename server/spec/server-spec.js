@@ -17,7 +17,7 @@ describe('Persistent Node Chat Server', () => {
   beforeAll((done) => {
     dbConnection.connect();
 
-       const tablename = 'messages'; // TODO: fill this out
+    const tablename = 'messages'; // TODO: fill this out
 
     /* Empty the db table before all tests so that multiple tests
      * (or repeated runs of the tests)  will not fail when they should be passing
@@ -77,6 +77,76 @@ describe('Persistent Node Chat Server', () => {
 
       // Now query the Node chat server and see if it returns the message we just inserted:
       axios.get(`${API_URL}/messages`)
+        .then((response) => {
+          const messageLog = response.data;
+          expect(messageLog.length).toEqual(result.length);
+          // expect(messageLog[0].message).toEqual(result[0].message);
+          // expect(messageLog[0].roomname).toEqual(result[0].roomname);
+          done();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
+  });
+
+  // ADDITIONAL TESTS
+
+  beforeAll((done) => {
+    dbConnection.connect();
+
+    const tablename = 'users'; // TODO: fill this out
+
+    /* Empty the db table before all tests so that multiple tests
+     * (or repeated runs of the tests)  will not fail when they should be passing
+     * or vice versa */
+    dbConnection.query(`truncate ${tablename}`, done);
+  }, 6500);
+
+  afterAll(() => {
+    dbConnection.end();
+  });
+
+    it('Should insert posted users to the DB', (done) => {
+    const username = 'yasinnkhann';
+    // Create a user on the chat server database.
+    axios.post(`${API_URL}/users`, { username })
+      .then(() => {
+        /* TODO: You might have to change this test to get all the data from
+         * your message table, since this is schema-dependent. */
+        const queryString = 'SELECT * FROM users';
+        const queryArgs = [];
+
+        dbConnection.query(queryString, queryArgs, (err, results) => {
+          if (err) {
+            throw err;
+          }
+          // Should have one result:
+          expect(results.length).toEqual(2);
+
+          // TODO: If you don't have a column named text, change this test.
+          expect(results[1].username).toEqual(username);
+          done();
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
+
+    it('Should output all users from the DB', (done) => {
+    // Let's insert a message into the db
+       const queryString = 'SELECT * FROM users';
+       const queryArgs = [];
+    /* TODO: The exact query string and query args to use here
+     * depend on the schema you design, so I'll leave them up to you. */
+    dbConnection.query(queryString, queryArgs, (err, result) => {
+      if (err) {
+        throw err;
+      }
+
+      // Now query the Node chat server and see if it returns the message we just inserted:
+      axios.get(`${API_URL}/users`)
         .then((response) => {
           const messageLog = response.data;
           expect(messageLog.length).toEqual(result.length);
