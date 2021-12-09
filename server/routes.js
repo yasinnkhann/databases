@@ -6,6 +6,8 @@ var router = require('express').Router();
 
 router.get('/messages', msgController.get);
 
+router.post('/messages', msgController.post);
+
 router.get('/users', userController.get);
 
 router.post('/users', userController.post);

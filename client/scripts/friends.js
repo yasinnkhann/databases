@@ -9,6 +9,7 @@ var Friends = {
   userNameClick: function() {
     $('.username').on('click', function(e) {
       Friends.toggleStatus(e.currentTarget.innerText);
+      console.log(Friends._data);
     });
   },
 
