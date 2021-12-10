@@ -11,13 +11,6 @@ CREATE TABLE users (
     PRIMARY KEY (id)
 );
 
--- CREATE TABLE room (
---   id INT NOT NULL,
---   roomname VARCHAR(20) NOT NULL,
-
---     PRIMARY KEY (id)
--- );
-
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT,
   username VARCHAR(20) NOT NULL,
@@ -25,8 +18,6 @@ CREATE TABLE messages (
   roomname VARCHAR(20) NOT NULL,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
-  -- FOREIGN KEY (username) REFERENCES users(username)
-  -- FOREIGN KEY (roomname) REFERENCES room(roomname)
 );
 
 

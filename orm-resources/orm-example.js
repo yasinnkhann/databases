@@ -11,6 +11,7 @@ var db = new Sequelize('chat', 'root', 'password');
 /* first define the data structure by giving property names and datatypes
  * See http://sequelizejs.com for other datatypes you can use besides STRING. */
 var User = db.define('User', {
+  id: Sequelize.INTEGER,
   username: Sequelize.STRING
 });
 

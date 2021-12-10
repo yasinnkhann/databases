@@ -1,6 +1,5 @@
-var models = require('../models');
-var db = require('../db/index.js');
 var modelUsers = require('../models/users.js');
+// var db = require('../db/index.js');
 
 module.exports = {
   get: function (req, res) {

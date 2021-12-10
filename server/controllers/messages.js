@@ -1,6 +1,5 @@
-var models = require('../models');
-var db = require('../db/index.js');
 var modelMsgs = require('../models/messages.js');
+// var db = require('../db/index.js');
 
 module.exports = {
   get: function (req, res) {
@@ -17,7 +16,13 @@ module.exports = {
     const message = req.body.message;
     const roomName = req.body.roomname;
 
-    const args = [username, message, roomName];
+    // const args = [username, message, roomName];
+
+    const args = {
+      username: username,
+      message: message,
+      roomName: roomName
+    }
 
     modelMsgs.create(args, (err, data) => {
       if (err) {
@@ -26,7 +31,6 @@ module.exports = {
         res.json('Successfully posted!');
       }
     })
-
   }
 };
 
